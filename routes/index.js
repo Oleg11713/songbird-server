@@ -1,9 +1,11 @@
 const Router = require("express");
-const router = new Router();
+
 const gameRouter = require("./gameRouter");
 const userRouter = require("./userRouter");
 
+const router = new Router();
+
 router.use("/signIn", userRouter);
-router.use("/", gameRouter);
-    
+router.use("/game", gameRouter);
+
 module.exports = router;

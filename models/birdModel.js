@@ -1,13 +1,6 @@
-const sequelize = require("../db");
 const { DataTypes } = require("sequelize");
 
-const User = sequelize.define("user", {
-  id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-  displayName: { type: DataTypes.STRING, allowNull: false },
-  email: { type: DataTypes.STRING, unique: true },
-  password: { type: DataTypes.STRING },
-  totalScoreForAllGames: { type: DataTypes.INTEGER },
-});
+const sequelize = require("../config/db");
 
 const Bird = sequelize.define("bird", {
   id: { type: DataTypes.INTEGER, primaryKey: true },
@@ -19,6 +12,5 @@ const Bird = sequelize.define("bird", {
 });
 
 module.exports = {
-  User,
   Bird,
 };

@@ -1,19 +1,23 @@
-const ApiError = require("../error/ApiError");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { User } = require("../models/models");
+
+const { User } = require("../models/userModel");
+const ApiError = require("../error/ApiError");
+
+const SALT = 5;
 
 const generateJwt = (id, displayName, email, totalScoreForAllGames) => {
   return jwt.sign(
     { id, displayName, email, totalScoreForAllGames },
-    process.env.SECRET_KEY,
+    process.env.ACCESS_TOKEN_KEY,
     { expiresIn: "24h" }
   );
 };
 
 class UserController {
   async registration(req, res, next) {
-    const { displayName, email, password, totalScoreForAllGames } = req.body;
+    const INITIAL_TOTAL_SCORE = 0;
+    const { displayName, email, password } = req.body;
     if (!email || !password) {
       return next(ApiError.badRequest("Неверный логин или пароль"));
     }
@@ -23,12 +27,12 @@ class UserController {
         ApiError.badRequest("Пользователь с таким email уже существует")
       );
     }
-    const hashPassword = await bcrypt.hash(password, 5);
+    const passwordHash = await bcrypt.hash(password, SALT);
     const user = await User.create({
       displayName,
       email,
-      password: hashPassword,
-      totalScoreForAllGames,
+      password: passwordHash,
+      totalScoreForAllGames: INITIAL_TOTAL_SCORE,
     });
     const token = generateJwt(
       user.id,
@@ -77,11 +81,6 @@ class UserController {
       req.user.totalScoreForAllGames
     );
     return res.json({ token });
-  }
-
-  async getAll(req, res) {
-    const user = await User.findAll();
-    return res.json(user);
   }
 }
 

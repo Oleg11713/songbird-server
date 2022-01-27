@@ -1,8 +1,8 @@
-const { Bird } = require("../models/models");
+const { Bird } = require("../models/birdModel");
 
 class GameController {
   async create(req, res) {
-    let { id, name, species, description, image, audio } = req.body;
+    const { id, name, species, description, image, audio } = req.body;
     const bird = await Bird.create({
       id,
       name,
