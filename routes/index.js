@@ -1,11 +1,11 @@
 const Router = require("express");
 
-const gameRouter = require("./gameRouter");
+const gameRouter = require("./birdRouter");
 const userRouter = require("./userRouter");
 
 const router = new Router();
 
-router.use("/signIn", userRouter);
-router.use("/game", gameRouter);
+router.use("/user", userRouter);
+router.use("/bird", gameRouter);
 
 module.exports = router;

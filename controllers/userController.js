@@ -60,7 +60,7 @@ class UserController {
         ApiError.badRequest("Пользователя с таким email не существует")
       );
     }
-    const comparePassword = await bcrypt.compareSync(password, user.password);
+    const comparePassword = bcrypt.compareSync(password, user.password);
     if (!comparePassword) {
       return next(ApiError.badRequest("Неверный пароль"));
     }

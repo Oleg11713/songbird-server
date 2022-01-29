@@ -7,6 +7,7 @@ const router = new Router();
 
 router.post("/registration", userController.registration);
 router.post("/login", userController.login);
+router.patch("/updateScore", authMiddleware, userController.updateTotalScore);
 router.get("/auth", authMiddleware, userController.check);
 
 module.exports = router;
